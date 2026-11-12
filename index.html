@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHELLAT-NEWS | شلات نيوز</title>
+    <!-- Google Fonts: Cairo for Arabic/Latin harmony -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Top Bar: Date + last-updated chip (injected) + Language Selector -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="date-display" id="current-date">الاثنين، 23 أكتوبر 2023</div>
+            <div class="lang-switcher">
+                <select id="language-selector">
+                    <option value="ar" selected>العربية</option>
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breaking News Hub (interactive — replaces the old banner ad space) -->
+    <section class="breaking-hub" id="breaking-hub" aria-label="Breaking News Hub">
+        <div class="container">
+            <div class="hub-header">
+                <div class="hub-title">
+                    <span class="hub-pulse" aria-hidden="true"></span>
+                    <span id="hub-title" data-i18n="hubTitle">الأخبار العاجلة الآن</span>
+                </div>
+                <div class="hub-hint" id="hub-hint" data-i18n="hubHint">اضغط على أي خبر للانتقال إلى القصة الكاملة</div>
+            </div>
+            <div class="hub-cards" id="hub-cards">
+                <!-- Static fallback hub cards (replaced by live feed items when available) -->
+                <div class="hub-card">
+                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=85&w=400&auto=format&fit=crop" alt="">
+                    <div class="hub-card-body">
+                        <div class="hub-card-title">ارتفاع الأسواق العالمية مع تراجع بيانات التضخم بشكل غير متوقع</div>
+                        <div class="hub-card-meta"><span class="hub-live-dot"></span><span>عاجل</span></div>
+                    </div>
+                </div>
+                <div class="hub-card">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=85&w=400&auto=format&fit=crop" alt="">
+                    <div class="hub-card-body">
+                        <div class="hub-card-title">عملاق التكنولوجيا يكشف عن شريحة ذكاء اصطناعي ثورية</div>
+                        <div class="hub-card-meta"><span class="hub-live-dot"></span><span>عاجل</span></div>
+                    </div>
+                </div>
+                <div class="hub-card">
+                    <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=85&w=400&auto=format&fit=crop" alt="">
+                    <div class="hub-card-body">
+                        <div class="hub-card-title">نهائيات البطولات تحطم أرقام المشاهدة عالميًا</div>
+                        <div class="hub-card-meta"><span class="hub-live-dot"></span><span>عاجل</span></div>
+                    </div>
+                </div>
+                <div class="hub-card">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=85&w=400&auto=format&fit=crop" alt="">
+                    <div class="hub-card-body">
+                        <div class="hub-card-title">توقيع اتفاقية مناخ تاريخية من قبل 150 دولة في قمة جنيف</div>
+                        <div class="hub-card-meta"><span class="hub-live-dot"></span><span>عاجل</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Header: Logo + Category Nav + Theme Toggle + Search Bar -->
+    <header>
+        <div class="container header-main">
+            <div class="logo">CHELLAT<span>-NEWS</span></div>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#" data-section-link="home" class="active" data-i18n="home">الرئيسية</a></li>
+                    <li><a href="#" data-section-link="national" data-i18n="national">أخبار وطنية</a></li>
+                    <li><a href="#" data-section-link="international" data-i18n="international">أخبار دولية</a></li>
+                    <li><a href="#" data-section-link="economy" data-i18n="economy">اقتصاد</a></li>
+                    <li><a href="#" data-section-link="tech" data-i18n="tech">تكنولوجيا</a></li>
+                    <li><a href="#" data-section-link="sports" data-i18n="sports">رياضة</a></li>
+                    <li><a href="#contact" data-i18n="contact">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            <div class="header-tools">
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Dark / Light mode">🌙</button>
+                <form class="search-bar" id="search-form" role="search" onsubmit="return false;">
+                    <input type="search" id="search-input" data-i18n-placeholder="searchPlaceholder" placeholder="ابحث في الأخبار...">
+                    <button type="submit" aria-label="Search">🔍</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breaking News Ticker (slow, readable, pause on hover) -->
+    <div class="ticker-wrap">
+        <div class="ticker-label">
+            <span class="ticker-badge" data-i18n="badgeAr">عاجل</span>
+            <span class="ticker-badge-en" data-i18n="badgeEn">BREAKING</span>
+        </div>
+        <div class="ticker-content" id="ticker-content">
+            <!-- Static fallback items (replaced by live feed when available) -->
+            <span class="ticker-item">ارتفاع الأسواق العالمية مع ظهور بيانات تضخم منخفضة بشكل غير متوقع...</span>
+            <span class="ticker-item">توقيع اتفاقية مناخ تاريخية من قبل 150 دولة في قمة جنيف...</span>
+            <span class="ticker-item">عملاق التكنولوجيا يكشف عن شريحة ذكاء اصطناعي ثورية...</span>
+            <span class="ticker-item">تأخر نتائج الانتخابات المحلية بسبب الإقبال غير المسبوق...</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-grid">
+                <article class="main-story">
+                    <a href="#" id="hero-link" target="_blank" rel="noopener">
+                        <img id="hero-image" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=85&w=1600&auto=format&fit=crop" alt="Main Story">
+                        <div class="story-overlay">
+                            <span class="badge badge-politics" id="hero-badge">مباشر</span>
+                            <h1 id="hero-title">حقبة جديدة من الدبلوماسية الرقمية تعيد تشكيل العلاقات الدولية</h1>
+                            <p id="hero-excerpt">يجتمع قادة العالم لمناقشة تأثير الذكاء الاصطناعي على الأمن العالمي والاستقرار الاقتصادي في العقد المقبل.</p>
+                            <div class="story-meta" id="hero-meta">قبل ساعتين</div>
+                        </div>
+                    </a>
+                </article>
+
+                <aside class="sidebar-box">
+                    <div class="section-title" data-i18n="trending">الأكثر قراءة</div>
+                    <ul class="trend-list" id="trend-list">
+                        <!-- Static fallback items (replaced by live feed when available) -->
+                        <li>
+                            <span class="trend-num">01</span>
+                            <div class="trend-content">
+                                <h4>سبيس إكس تطلق بنجاح جيلًا جديدًا من الأقمار الصناعية</h4>
+                                <span>قبل 45 دقيقة</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="trend-num">02</span>
+                            <div class="trend-content">
+                                <h4>البنك المركزي يعلن عن برنامج تجريبي للعملة الرقمية</h4>
+                                <span>قبل ساعتين</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="trend-num">03</span>
+                            <div class="trend-content">
+                                <h4>نهائيات البطولات تحطم أرقام المشاهدة عالميًا</h4>
+                                <span>قبل 5 ساعات</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="trend-num">04</span>
+                            <div class="trend-content">
+                                <h4>اختراق في تخزين الطاقة المتجددة تم الإعلان عنه</h4>
+                                <span>قبل 8 ساعات</span>
+                            </div>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
+
+        <!-- Category Grid -->
+        <section class="category-section" id="latest-section">
+            <div class="section-title" id="grid-title" data-i18n="latest">آخر الأخبار</div>
+            <div class="cat-grid" id="cat-grid">
+                <!-- Static fallback cards (replaced by live feed when available) -->
+                <article class="news-card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=85&w=1200&auto=format&fit=crop" alt="Business">
+                        <span class="badge badge-business">اقتصاد</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>سلاسل التوريد العالمية تتكيف مع اللوائح التجارية الجديدة</h3>
+                        <p>تقوم شركات الخدمات اللوجستية الكبرى بإعادة هيكلة شبكاتها بعد تنفيذ التعريفات الجمركية الجديدة عبر الحدود.</p>
+                        <div class="card-footer">
+                            <span>اقرأ المزيد</span>
+                            <span>قبل 3 ساعات</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=85&w=1200&auto=format&fit=crop" alt="Tech">
+                        <span class="badge badge-tech">تكنولوجيا</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>فريق بحثي يحقق إنجازًا في الحوسبة الكمومية</h3>
+                        <p>يُظهر العلماء قدرات تصحيح الأخطاء التي قد تمهد الطريق للتطبيقات الكمومية التجارية.</p>
+                        <div class="card-footer">
+                            <span>اقرأ المزيد</span>
+                            <span>قبل 5 ساعات</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=85&w=1200&auto=format&fit=crop" alt="Sports">
+                        <span class="badge badge-sports">رياضة</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>الفريق المستضعف يحقق انتصارًا تاريخيًا في الدوري الإقليمي</h3>
+                        <p>في مفاجأة مذهلة، هزم الفريق المحلي الأبطال الحاليين بهدف في اللحظة الأخيرة.</p>
+                        <div class="card-footer">
+                            <span>اقرأ المزيد</span>
+                            <span>قبل 6 ساعات</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=85&w=1200&auto=format&fit=crop" alt="Culture">
+                        <span class="badge badge-culture">ثقافة</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>مهرجان السينما الدولي يفتح أبوابه بأرقام قياسية</h3>
+                        <p>تتميز تشكيلة هذا العام بأصوات متنوعة من أكثر من 80 دولة، مع إبراز اتجاهات السرد الناشئة.</p>
+                        <div class="card-footer">
+                            <span>اقرأ المزيد</span>
+                            <span>قبل 12 ساعة</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">CHELLAT<span>-NEWS</span></div>
+                    <p data-i18n="footerDesc">نقدم أخبارًا دقيقة وفي الوقت المناسب وغير متحيزة من جميع أنحاء العالم. مصدرك الموثوق للرؤى حول السياسة والأعمال والتكنولوجيا والثقافة.</p>
+                    <div class="editor-profile">
+                        <!-- Editor photo: keep "profile.jpg" next to index.html -->
+                        <img src="profile.jpg" alt="Editor-in-Chief" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=85&w=200&auto=format&fit=crop'">
+                        <div>
+                            <div class="editor-name" data-i18n="editorName">م. شلات</div>
+                            <div class="editor-role" data-i18n="editorRole">رئيس التحرير</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="quickLinks">روابط سريعة</h4>
+                    <ul>
+                        <li><a href="#" data-i18n="about">من نحن</a></li>
+                        <li><a href="#contact" data-i18n="contact">اتصل بنا</a></li>
+                        <li><a href="#" data-i18n="privacy">سياسة الخصوصية</a></li>
+                        <li><a href="#" data-i18n="terms">شروط الخدمة</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="categories">التصنيفات</h4>
+                    <ul>
+                        <li><a href="#" data-section-link="national" data-i18n="national">أخبار وطنية</a></li>
+                        <li><a href="#" data-section-link="international" data-i18n="international">أخبار دولية</a></li>
+                        <li><a href="#" data-section-link="economy" data-i18n="economy">اقتصاد</a></li>
+                        <li><a href="#" data-section-link="tech" data-i18n="tech">تكنولوجيا</a></li>
+                        <li><a href="#" data-section-link="sports" data-i18n="sports">رياضة</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col contact-info">
+                    <h4 data-i18n="contactUs">تواصل معنا</h4>
+                    <p>📧 mouhssinechellat@gmail.com</p>
+                    <p>📞 0621681357</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 CHELLAT-NEWS. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
