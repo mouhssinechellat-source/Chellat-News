@@ -317,3 +317,4 @@
         const btn = document.getElementById('theme-toggle');
         if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
+})();
